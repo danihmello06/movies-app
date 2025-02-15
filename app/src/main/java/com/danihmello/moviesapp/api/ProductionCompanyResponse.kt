@@ -1,6 +1,5 @@
 package com.danihmello.moviesapp.api
 
-
 import com.google.gson.annotations.SerializedName
 
 data class ProductionCompanyResponse(

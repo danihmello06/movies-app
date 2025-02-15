@@ -1,11 +1,8 @@
 package com.danihmello.moviesapp.api
 
-import MovieResponse
-import com.danihmello.moviesapp.data.Movie
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-// Retrofit API interface
 interface MovieApi {
 
     companion object {
