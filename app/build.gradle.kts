@@ -68,10 +68,13 @@ dependencies {
 
     // dagger -hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
+    implementation(libs.androidx.navigation.compose)
     kapt(libs.hilt.android.compiler)
 
+
     //coil
-    implementation("io.coil-kt:coil-compose:1.3.2")
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("androidx.navigation:navigation-compose:2.8.7")
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.core.ktx)

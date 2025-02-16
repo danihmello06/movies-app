@@ -1,6 +1,3 @@
-import com.danihmello.moviesapp.data.Genre
-import com.danihmello.moviesapp.data.ProductionCompany
-import com.danihmello.moviesapp.data.ProductionCountry
 import com.danihmello.moviesapp.data.SpokenLanguage
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.RawValue
@@ -15,7 +12,7 @@ data class MovieResponse(
     @SerializedName("budget")
     val budget: Int,
     @SerializedName("genres")
-    val genres: List<Genre>,
+    val genres: List<GenreResponse>?,
     @SerializedName("homepage")
     val homepage: String,
     @SerializedName("id")
@@ -35,9 +32,9 @@ data class MovieResponse(
     @SerializedName("poster_path")
     val posterPath: String,
     @SerializedName("production_companies")
-    val productionCompanies: List<ProductionCompany>,
+    val productionCompanies: List<@RawValue Any>,
     @SerializedName("production_countries")
-    val productionCountries: List<ProductionCountry>,
+    val productionCountries: List<@RawValue Any>,
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("revenue")
@@ -58,4 +55,11 @@ data class MovieResponse(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
+)
+
+data class GenreResponse(
+    @SerializedName("id")
+    val id: Int? = null,
+    @SerializedName("name")
+    val name: String? = null
 )

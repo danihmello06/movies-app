@@ -1,4 +1,4 @@
-package com.danihmello.moviesapp.ui.theme
+package com.danihmello.moviesapp.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

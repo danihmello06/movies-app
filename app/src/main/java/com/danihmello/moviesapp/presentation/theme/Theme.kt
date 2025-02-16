@@ -1,6 +1,5 @@
-package com.danihmello.moviesapp.ui.theme
+package com.danihmello.moviesapp.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

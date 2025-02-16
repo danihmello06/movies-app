@@ -4,12 +4,17 @@ import com.danihmello.moviesapp.data.Movie
 
 object MoviesMapper {
 
-    fun mapList(response: PopularMoviesResponse): List<Movie> {
+    fun mapPopularMoviesResponse(response: PopularMoviesResponse): List<Movie> {
         return response.results.map { movieResponse ->
             Movie(
                 imageBackdropPath = movieResponse.imageBackdropPath,
                 budget = movieResponse.budget,
-                genres = movieResponse.genres,
+                genres = movieResponse.genres?.map { genre ->
+                    Movie.Genre(
+                        id = genre.id,
+                        name = genre.name
+                    )
+                },
                 homepage = movieResponse.homepage,
                 id = movieResponse.id,
                 imdbId = movieResponse.imdbId,
@@ -19,8 +24,6 @@ object MoviesMapper {
                 overview = movieResponse.overview,
                 popularity = movieResponse.popularity,
                 posterPath = movieResponse.posterPath,
-                productionCompanies = movieResponse.productionCompanies,
-                productionCountries = movieResponse.productionCountries,
                 releaseDate = movieResponse.releaseDate,
                 revenue = movieResponse.revenue,
                 runtime = movieResponse.runtime,

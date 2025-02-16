@@ -11,6 +11,6 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getPopularMovies(): List<Movie> {
         val popularMoviesResponse = service.getPopularMovies(BuildConfig.API_KEY)
-        return MoviesMapper.mapList(popularMoviesResponse)
+        return MoviesMapper.mapPopularMoviesResponse(popularMoviesResponse)
     }
 }

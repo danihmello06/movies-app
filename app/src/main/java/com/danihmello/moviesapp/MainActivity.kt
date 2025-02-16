@@ -5,14 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.danihmello.moviesapp.ui.home.HomeScreen
-import com.danihmello.moviesapp.ui.theme.MoviesAppTheme
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.rememberNavController
+import com.danihmello.moviesapp.presentation.navigation.NavDestination
+import com.danihmello.moviesapp.presentation.navigation.NavigationHost
+import com.danihmello.moviesapp.presentation.theme.MoviesAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,30 +30,56 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MoviesAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-
-                ) {
-                    HomeScreen()
-                }
+                MainScreen()
             }
         }
     }
 }
 
+@Preview
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun MainScreen() {
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MoviesAppTheme {
-        Greeting("Android")
+    val navController = rememberNavController()
+
+    val navItemList = listOf(
+        NavDestination.Home,
+        NavDestination.Favorites,
+        NavDestination.Account
+    )
+
+    var selectedIndex by remember {
+        mutableIntStateOf(0)
+    }
+
+    Scaffold (
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            NavigationBar {
+                navItemList.forEachIndexed { index, navItem ->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                imageVector = navItem.icon,
+                                contentDescription = navItem.title
+                            )
+                        },
+                        selected = selectedIndex == index,
+                        onClick = {
+                            selectedIndex = index
+                            navController.navigate(navItem.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
+        NavigationHost(navController, innerPadding)
     }
 }

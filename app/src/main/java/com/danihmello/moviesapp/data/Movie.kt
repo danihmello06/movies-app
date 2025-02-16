@@ -18,8 +18,6 @@ data class Movie(
     val overview: String? = null,
     val popularity: Double? = null,
     val posterPath: String? = null,
-    val productionCompanies: List<ProductionCompany>? = null,
-    val productionCountries: List<ProductionCountry>? = null,
     val releaseDate: String? = null,
     val revenue: Int? = null,
     val runtime: Int? = null,
@@ -30,4 +28,11 @@ data class Movie(
     val video: Boolean? = null,
     val voteAverage: Double? = null,
     val voteCount: Int? = null
-) : Parcelable
+) : Parcelable {
+
+    @Parcelize
+    data class Genre(
+        val id: Int? = null,
+        val name: String? = null
+    ) : Parcelable
+}

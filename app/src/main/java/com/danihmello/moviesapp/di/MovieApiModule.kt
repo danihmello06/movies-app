@@ -1,5 +1,6 @@
 package com.danihmello.moviesapp.di
 
+import com.danihmello.moviesapp.api.ApiConstants
 import com.danihmello.moviesapp.api.MovieApi
 import com.danihmello.moviesapp.api.MovieRepositoryImpl
 import com.danihmello.moviesapp.domain.MovieRepository
@@ -21,14 +22,13 @@ class MovieApiModule {
     @Singleton
     fun provideRetrofit(): Retrofit {
         val httpClient = OkHttpClient.Builder()
-            .addInterceptor(ApiKeyInterceptor())
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(15, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(MovieApi.BASE_URL)
+            .baseUrl(ApiConstants.BASE_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

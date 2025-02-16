@@ -1,4 +1,4 @@
-package com.danihmello.moviesapp.ui.home
+package com.danihmello.moviesapp.presentation.home
 
 import com.danihmello.moviesapp.data.Movie
 

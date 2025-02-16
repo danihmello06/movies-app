@@ -1,9 +1,7 @@
-package com.danihmello.moviesapp.ui.home
+package com.danihmello.moviesapp.presentation.home
 
-import MovieResponse
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.danihmello.moviesapp.api.MovieApi
 import com.danihmello.moviesapp.data.Movie
 import com.danihmello.moviesapp.domain.MovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,13 +28,9 @@ class HomeViewModel @Inject constructor(
 
     private fun getPopularMovies() {
         viewModelScope.launch {
-
-            //val movies = movieRepository.getPopularMovies(MovieApi.)
-
-            val movies =  movieUseCase.getPopularMovies() //TODO getMoviesUseCase()
-            _state.value = movies
             try {
-
+                val movies =  movieUseCase.getPopularMovies()
+                _state.value = movies
             } catch (e: Exception) {
                 //TODO handle error
             }
