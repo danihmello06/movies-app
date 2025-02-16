@@ -1,6 +1,13 @@
-import com.danihmello.moviesapp.data.SpokenLanguage
+import com.danihmello.moviesapp.data.Movie
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.RawValue
+
+data class MovieCommonListResponse(
+    @SerializedName("page")
+    val page: Int,
+    @SerializedName("results")
+    val results: List<MovieResponse>
+)
 
 data class MovieResponse(
     @SerializedName("adult")
@@ -42,7 +49,7 @@ data class MovieResponse(
     @SerializedName("runtime")
     val runtime: Int,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguage>,
+    val spokenLanguages: List<Movie.SpokenLanguage>,
     @SerializedName("status")
     val status: String,
     @SerializedName("tagline")

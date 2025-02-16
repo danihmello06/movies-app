@@ -1,6 +1,7 @@
 package com.danihmello.moviesapp.presentation.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -11,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,26 +22,42 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.danihmello.moviesapp.data.Movie
+import com.danihmello.moviesapp.data.MovieResumed
+import com.danihmello.moviesapp.presentation.theme.grayBackground
 import kotlin.math.absoluteValue
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController
+) {
+//    val viewModel: HomeViewModel = viewModel()
+//    val state = viewModel.state.value
+
+    val movies = homeViewModel.state.collectAsState().value
+    val upcomingMovies = movies.upComingMovies.take(8)
+
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(grayBackground),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val pagerState = rememberPagerState(initialPage = 0) {
-            images.size
+            upcomingMovies.size
         }
 
         HorizontalPager(
             state = pagerState,
-            contentPadding = PaddingValues(50.dp)
+            contentPadding = PaddingValues(40.dp)
         ) { index ->
-            CardContent(index, pagerState)
+            CardContent(index, pagerState, upcomingMovies, navController)
         }
         PagerIndicator(pagerState = pagerState)
     }
@@ -64,15 +82,19 @@ fun PagerIndicator(pagerState: PagerState) {
 }
 
 @Composable
-fun CardContent(index: Int, pagerState: PagerState) {
+fun CardContent(
+    index: Int,
+    pagerState: PagerState,
+    highlightMovies: List<MovieResumed>,
+    navController: NavHostController
+) {
     val pagerOffset = (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
     Card(
         shape = RoundedCornerShape(24.dp),
         modifier = Modifier
-            .padding(1.dp)
             .graphicsLayer {
                 lerp(
-                    start = 0.85f.dp,
+                    start = 0.88f.dp,
                     stop = 1f.dp,
                     fraction = 1f - pagerOffset.absoluteValue.coerceIn(0f, 1f)
                 ).also { scale ->
@@ -85,12 +107,15 @@ fun CardContent(index: Int, pagerState: PagerState) {
                     fraction = 1f - pagerOffset.absoluteValue.coerceIn(0f, 1f)
                 ).value
             }
+            .clickable {
+                navController.navigate("details/${highlightMovies[index].id}")
+            }
     ) {
         AsyncImage(
             modifier = Modifier
                 .height(480.dp),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(images[index])
+                .data(highlightMovies[index].posterFullLink)
                 .crossfade(true)
                 .scale(Scale.FILL)
                 .build(),
@@ -99,16 +124,4 @@ fun CardContent(index: Int, pagerState: PagerState) {
         )
     }
 }
-
-val images = listOf(
-    "https://image.tmdb.org/t/p/w500/3L3l6LsiLGHkTG4RFB2aBA6BttB.jpg",
-    "https://image.tmdb.org/t/p/w500/d8Ryb8AunYAuycVKDp5HpdWPKgC.jpg",
-    "https://image.tmdb.org/t/p/w500/A9ENz6d4lC3UYOX8Z1gJwDEo1sM.jpg",
-    "https://image.tmdb.org/t/p/w500/5qGIxdEO841C0tdY8vOdLoRVrr0.jpg",
-    "https://image.tmdb.org/t/p/w500/sqiCinCzUGlzQiFytS30N1nO3Pt.jpg",
-    "https://image.tmdb.org/t/p/w500/sqiCinCzUGlzQiFytS30N1nO3Pt.jpg",
-    "https://image.tmdb.org/t/p/w500/sqiCinCzUGlzQiFytS30N1nO3Pt.jpg",
-    "https://image.tmdb.org/t/p/w500/sqiCinCzUGlzQiFytS30N1nO3Pt.jpg"
-)
-
 

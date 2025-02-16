@@ -10,7 +10,7 @@ data class Movie(
     val budget: Int? = null,
     val genres: List<Genre>? = null,
     val homepage: String? = null,
-    val id: Int,
+    val id: Int? = null,
     val imdbId: String? = null,
     val originCountry: List<String>? = null,
     val originalLanguage: String? = null,
@@ -18,6 +18,7 @@ data class Movie(
     val overview: String? = null,
     val popularity: Double? = null,
     val posterPath: String? = null,
+    val posterFullLink: String? = null,
     val releaseDate: String? = null,
     val revenue: Int? = null,
     val runtime: Int? = null,
@@ -34,5 +35,12 @@ data class Movie(
     data class Genre(
         val id: Int? = null,
         val name: String? = null
+    ) : Parcelable
+
+    @Parcelize
+    data class SpokenLanguage(
+        val englishName: String,
+        val iso6391: String,
+        val name: String
     ) : Parcelable
 }
