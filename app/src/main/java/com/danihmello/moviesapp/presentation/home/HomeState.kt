@@ -13,5 +13,4 @@ data class HomeState(
     companion object {
         val initial = HomeState()
     }
-
 }

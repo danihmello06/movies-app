@@ -9,4 +9,5 @@ data class MovieResumed(
     val posterPath: String? = null,
     val posterFullLink: String? = null,
     val title: String? = null,
+    val voteAverage: Double? = null,
 ) : Parcelable

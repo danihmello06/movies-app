@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
         getUpcomingMovies()
     }
 
-    private fun getPopularMovies() {
+    fun getPopularMovies() {
         viewModelScope.launch {
             movieUseCase.getPopularMovies().collect { movieList ->
                 _state.update { it.copy(popularMovies = movieList) }

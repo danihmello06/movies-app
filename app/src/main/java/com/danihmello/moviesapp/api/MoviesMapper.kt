@@ -4,6 +4,8 @@ import MovieCommonListResponse
 import MovieResponse
 import com.danihmello.moviesapp.data.Movie
 import com.danihmello.moviesapp.data.MovieResumed
+import java.text.DecimalFormat
+import kotlin.text.*
 
 object MoviesMapper {
 
@@ -41,12 +43,14 @@ object MoviesMapper {
     }
 
     fun mapMovieResumed(response: MovieCommonListResponse): List<MovieResumed> {
+        val decimalFormat = DecimalFormat("#.#")
         return response.results.map { movieResponse ->
             MovieResumed(
                 id = movieResponse.id,
                 posterPath = movieResponse.posterPath,
                 posterFullLink = ApiConstants.IMAGE_BASE_URL+movieResponse.posterPath,
                 title = movieResponse.title,
+                voteAverage = decimalFormat.format(movieResponse.voteAverage).toDouble()
             )
         }
     }
