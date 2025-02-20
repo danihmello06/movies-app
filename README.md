@@ -47,8 +47,8 @@ To run the Movies App on your local machine:
 Here are the next steps for this app:
 
 - **Improve unit test and implement ui tests**  
-
 - **Adding Loading behavior, based on current Home State, to a better user experience.**
+- **Add phased loading, since requests can return movies by page, which allows to load a new page when it reaches the end of the previous page.**
 - **Handling error on requests, to avoid crashing when requests is not successfull**
 - **Implement Search Feature**  
 - **Implement Favorite and User section:**
