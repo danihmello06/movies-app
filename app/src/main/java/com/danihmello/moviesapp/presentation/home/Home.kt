@@ -1,21 +1,15 @@
 package com.danihmello.moviesapp.presentation.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
@@ -37,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -56,6 +51,7 @@ fun HomeScreen(
     val moviesState = homeViewModel.state.collectAsState().value
     val upcomingMovies = moviesState.upComingMovies.take(8)
 
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -63,17 +59,22 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
+            Title("Upcoming")
+        }
+        item {
             val pagerState = rememberPagerState(initialPage = 0) {
                 upcomingMovies.size
             }
-
             HorizontalPager(
                 state = pagerState,
-                contentPadding = PaddingValues(40.dp)
+                contentPadding = PaddingValues(40.dp, 0.dp, 40.dp, 24.dp)
             ) { index ->
                 CardContent(index, pagerState, upcomingMovies, navController)
             }
             PagerIndicator(pagerState = pagerState)
+        }
+        item {
+            Title("Popular")
         }
         item {
             FlowRow(
@@ -92,6 +93,22 @@ fun HomeScreen(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun Title(textValue: String) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .padding(40.dp, 40.dp, 0.dp, 24.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = textValue,
+            fontSize = 24.sp,
+            color = Color.LightGray,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
@@ -226,4 +243,3 @@ fun CardContent(
         )
     }
 }
-

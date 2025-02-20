@@ -44,5 +44,4 @@ class MovieApiModule {
     fun provideMovieRepository(repository: MovieRepositoryImpl): MovieRepository {
         return repository
     }
-
 }

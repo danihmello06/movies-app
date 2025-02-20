@@ -8,16 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -29,15 +25,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.danihmello.moviesapp.data.Movie
 import com.danihmello.moviesapp.presentation.home.HomeViewModel
@@ -51,9 +42,7 @@ fun DetailsScreen(
 ) {
 
     viewModel.getMovieDetails(movieId)
-
     val state = viewModel.state
-
     val details = state.collectAsState().value.detailsMovie
 
     Box(
@@ -93,46 +82,8 @@ fun DetailsScreen(
                 lineHeight = 20.sp,
                 textAlign = TextAlign.Left
             )
-            //ImageRow(details = details)
         }
     }
-}
-
-//@Composable
-//fun ImageRow(details: Movie) {
-//    if (details.images.isNotEmpty()) {
-//        LazyRow {
-//            items(details.images.size) {
-//                AsyncImage(
-//                    model = details.images[it], contentDescription = "",
-//                    Modifier
-//                        .padding(6.dp)
-//                        .height(70.dp)
-//                        .clip(RoundedCornerShape(12.dp)),
-//                    contentScale = ContentScale.Crop
-//                )
-//            }
-//        }
-//    }
-//}
-
-@Composable
-fun TextBuilder(icon: ImageVector, title: String, bodyText: String) {
-    Row {
-        Icon(
-            imageVector = icon,
-            contentDescription = "Person",
-            tint = Color.White
-        )
-        Text(
-            text = title,
-            Modifier.padding(start = 10.dp),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )
-    }
-    Text(text = bodyText, color = Color.White)
 }
 
 @Composable
@@ -144,17 +95,6 @@ fun Rating(details: Movie, modifier: Modifier) {
             modifier.padding(start = 6.dp),
             color = Color.White
         )
-        Spacer(modifier = modifier.width(25.dp))
-//        Icon(
-//            painter = painterResource(id = R.drawable.time_24),
-//            contentDescription = "",
-//            tint = Color.White
-//        )
-//        Text(
-//            text = details.runtime,
-//            modifier.padding(start = 6.dp),
-//            color = Color.White
-//        )
         Spacer(modifier = modifier.width(25.dp))
         Icon(imageVector = Icons.Filled.DateRange, contentDescription = "", tint = Color.White)
         Text(
